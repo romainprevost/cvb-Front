@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '@/Layouts/Footer'
 import Header from '@/Layouts/Header'
 import {Link } from 'react-router-dom';
@@ -9,8 +9,31 @@ import ButtonGold from '@/Components/ButtonGold';
 import MainPhoto from '@/Components/header/MainPhoto';
 import ApiReseaux from '@/Components/ApiReseaux';
 
+import axios from '@/libs/axios';
 
-export default function Actualites({ auth, actualites }) {
+
+export default function Actualites({ auth }) {
+
+    const [actualites, setActualites] = useState([]);
+
+    useEffect(() =>{
+        // Fonction asynchrone pour récupérer les articles
+        const fetchActualites = async() => {
+          try {
+            const response = await axios.get('/api/actualites')
+            setActualites(response.data.actualites)
+            
+            console.log(response.data.actualites);
+            
+          } catch (err) {
+            console.error(err);
+          }
+        }
+    
+        fetchActualites();
+      }, []);
+
+
   return (
     <>
         {/* <Head title="Actualités" /> */}
@@ -23,25 +46,24 @@ export default function Actualites({ auth, actualites }) {
             alt={"Caen Volley Ball Photo"}
             className={'main-photo'}
             />
-            {/* <h1>ACTUALITÉS</h1> */}
-        </div>
-        
-        
+        </div>    
+
+                
         <section className='flex'>
             <div className="left-bloc">
                 <h1>ACTUALITÉS</h1>
                 <div className='cards'>
                     {
-                        actualites.data.map((actu)=> (
+                        actualites.map((actu)=> (
                             <div className='card' key={actu.id}>
-                                <Link to={route('actu.show', {actu: actu.id})}>
+                                {/* <Link to={route('actu.show', {actu: actu.id})}> */}
+                                <Link to={`/api/actualite/${actu.id}`}>
                                     <div className='relative'>
                                         <img src={actu.photo} alt="actualité" />
-                                        <div class="filtre-img"></div>
+                                        <div className="filtre-img"></div>
                                     </div>
                                     <h2>{ actu.titre }</h2>
                                     <h3>Le { moment(actu.created_at).locale('fr').format('DD/MM/YYYY') }</h3>
-                                    {/* <p className='content'>{ actu.content }</p> */}
                                 </Link>
                             </div>
                         ))
@@ -81,8 +103,7 @@ export default function Actualites({ auth, actualites }) {
             <div className="right-bloc">
                 <ApiReseaux />
             </div>
-        </section>
-
+        </section>  
 
         <Footer />
 

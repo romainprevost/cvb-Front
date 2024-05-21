@@ -1,11 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import Footer from '@/Layouts/Footer'
 import Header from '@/Layouts/Header'
 import moment from 'moment'
 import '../../../sass/actualites.scss'  
 
+import axios from '@/libs/axios';
 
-export default function show({ actu, auth }) {
+
+export default function show({ auth }) {
+
+    const { actu } = useParams();
+
+    const [actualite, setActualite] = useState([]);
+
+    useEffect(() =>{
+        // Fonction asynchrone pour récupérer les articles
+    const fetchActualites = async() => {
+        try {
+            const response = await axios.get(`/api/actualite/${actu}`)
+            setActualite(response.data.data);
+                
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    fetchActualites();
+      }, []);
+
   return (
     <>
         {/* <Head title="Actualités" /> */}
@@ -14,14 +36,14 @@ export default function show({ actu, auth }) {
 
         <section>
             <article>
-            <h1>{ actu.titre }</h1>
+                <h1>{ actualite.titre }</h1>
                 <div className='card-actu'>
                     <div className='relative'>
-                        <h3>Par { actu.auteur } | Le { moment(actu.created_at).format('DD/MM/YYYY') }</h3> {/* "moment" permet de convertir la date au format demandé */}
-                        <img src={actu.photo} alt="actu" />
-                        <div class="filtre-img"></div>
+                        <h3>Par { actualite.auteur } | Le { moment(actualite.created_at).format('DD/MM/YYYY') }</h3> 
+                        <img src={actualite.photo} alt="actu" />
+                        <div className="filtre-img"></div>
                     </div>
-                    <p className='article-content'>{ actu.content }</p>
+                    <p className='article-content'>{ actualite.content }</p>
                 </div>
             </article>
         </section>

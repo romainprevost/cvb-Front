@@ -8,11 +8,11 @@ export default function Caroussel({partners}) {
 
   return (
     <>
-        <div class="slider">
-            <div class="slide-track" style={{ '--translation-multiplier': translationMultiplier }}>
+        <div className="slider">
+            <div className="slide-track" style={{ '--translation-multiplier': translationMultiplier }}>
                 {
                     partners.map((partner)=> (
-                        <div key={partner.id} class="slide">
+                        <div key={partner.id} className="slide">
                             <img src={partner.logo} height="100" width="250" alt={partner.nom}/>
                         </div>
                     ))
@@ -21,7 +21,7 @@ export default function Caroussel({partners}) {
                 {/* double des div pour enchainement du carousel*/}
                 {
                     partners.map((partner)=> (
-                        <div key={partner.id} class="slide">
+                        <div key={partner.id} className="slide">
                             <img src={partner.logo} height="100" width="250" alt={partner.nom}/>
                         </div>
                     ))

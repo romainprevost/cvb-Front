@@ -2,6 +2,7 @@ import './sass/welcome.scss'
 import { Router, Routes, Route, Link } from 'react-router-dom';
 
 import Welcome from '@/Pages/Welcome';
+import Test from '@/Pages/Test';
 //actualites
 import Actualites from '@/Pages/Actualites/Actualites';
 import Show from '@/Pages/Actualites/Show';
@@ -25,19 +26,21 @@ import DevenezPartenaire from '@/Pages/Partenaires/DevenezPartenaire';
 import Boutique from '@/Pages/Boutique/Boutique';
 
 
-
 function App() {
 
   return (
     <>
       <Routes>
         <Route path='/' element={<Welcome />} />
+
+        {/*---------------- Users ----------------*/}
+        <Route path='/api/users' element={<Test />} />
         {/*---------------- Dashboard ----------------*/}
         <Route path='/cvb-admin' element={''} />
 
         {/*---------------- Actualites ----------------*/}
-        <Route path='/actualites' element={<Actualites />} />
-        <Route path='/actualite/:actu' element={<Show />} />
+        <Route path='/api/actualites' element={<Actualites />} />
+        <Route path='/api/actualite/:actu' element={<Show />} />
 
         {/*---------------- Divers ----------------*/}
         <Route path='/projet' element={<Projet />} />
@@ -53,7 +56,10 @@ function App() {
         <Route path='/documentsDivers' element={<DocumentsDivers />} />
 
         {/*---------------- Equipes ----------------*/}
-        <Route path='/partenaires' element={<Partenaires />} />
+        <Route path='/api/equipes/:equipe' element={<Equipes />} />
+
+        {/*---------------- Partenaires ----------------*/}
+        <Route path='/api/partenaires' element={<Partenaires />} />
         <Route path='/devenez-partenaire' element={<DevenezPartenaire />} />
 
         {/*---------------- Boutique ----------------*/}

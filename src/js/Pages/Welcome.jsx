@@ -10,6 +10,7 @@ import Partenaires from '@/Components/Partenaires'
 
 export default function Welcome({auth, firstActu, othersActu, partners}) {
   console.log(auth);
+  
   return (
     <>
         {/* <Head title="Accueil" /> */}
@@ -36,16 +37,13 @@ export default function Welcome({auth, firstActu, othersActu, partners}) {
           </div>
         </div>
 
-        {/* <Actualites 
-          firstActu={firstActu}
-          othersActu={othersActu}
-        /> */}
+        <Actualites />
 
         <Reseaux />
 
         {/* <Partenaires partners={partners}/> */}
 
-        {/* <Footer /> */}
+        <Footer />
 
     </>
   )
