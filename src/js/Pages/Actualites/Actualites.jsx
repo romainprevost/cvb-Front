@@ -54,7 +54,7 @@ export default function Actualites({ auth }) {
                         actualites.map((actu)=> (
                             <div className='card' key={actu.id}>
                                 {/* <Link to={route('actu.show', {actu: actu.id})}> */}
-                                <Link to={`/api/actualite/${actu.id}`}>
+                                <Link to={`/actualite/${actu.id}`}>
                                     <div className='relative'>
                                         <img src={actu.photo} alt="actualité" />
                                         <div className="filtre-img"></div>

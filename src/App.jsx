@@ -34,17 +34,22 @@ function App() {
         <Route path='/' element={<Welcome />} />
 
         {/*---------------- Users ----------------*/}
-        <Route path='/api/users' element={<Test />} />
-        
+        <Route path='/users' element={<Test />} />
+
         {/*---------------- Dashboard ----------------*/}
         <Route path='/cvb-admin' element={''} />
+        <Route path='/dashboard' element={''} />
+
+        {/*---------------- Profil ----------------*/}
+        <Route path='/profile' element={''} />
+
 
         {/*---------------- Actualites ----------------*/}
-        <Route path='/api/actualites' element={<Actualites />} />
-        <Route path='/api/actualite/:actu' element={<Show />} />
+        <Route path='/actualites' element={<Actualites />} />
+        <Route path='/actualite/:actu' element={<Show />} />
 
         {/*---------------- Equipes ----------------*/}
-        <Route path='/api/equipes/:equipe' element={<Equipes />} />
+        <Route path='/equipe-senior/:equipe_id' element={<Equipes />} />
 
         {/*---------------- Divers ----------------*/}
         <Route path='/projet' element={<Projet />} />
@@ -60,7 +65,7 @@ function App() {
         <Route path='/documentsDivers' element={<DocumentsDivers />} />
 
         {/*---------------- Partenaires ----------------*/}
-        <Route path='/api/partenaires' element={<Partenaires />} />
+        <Route path='/partenaires' element={<Partenaires />} />
         <Route path='/devenez-partenaire' element={<DevenezPartenaire />} />
 
         {/*---------------- Boutique ----------------*/}

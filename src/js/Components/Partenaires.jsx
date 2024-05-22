@@ -9,19 +9,16 @@ export default function Partenaires() {
 
     useEffect(() =>{
         // Fonction asynchrone pour récupérer les articles
-        const fetchActualites = async() => {
-            console.log(partners);
+        const fetchPartenaires = async() => {
           try {
             const response = await axios.get('/api/partenaires')
-            setPartners(response.data.partners)
-                        
+            setPartners(response.data.partners)      
           } catch (err) {
             console.error(err);
           }
         }
-        fetchActualites();
+        fetchPartenaires();
     }, []);
-
 
   return (
     <>

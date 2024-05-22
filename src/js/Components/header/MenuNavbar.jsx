@@ -16,7 +16,7 @@ export default function MenuNavbar({ /*auth*/ }) {
             </Link>
           </li>
           <li>
-            <Link to='/api/actualites' className='itemMenu'>
+            <Link to='/actualites' className='itemMenu'>
                 <span>Actualités</span>
             </Link>
           </li>
@@ -48,14 +48,14 @@ export default function MenuNavbar({ /*auth*/ }) {
                 <div className='dropdown-content w-64'>
                   <ul>
                     {/* <Link to={route('equipe.index', 2)}>Nationale 3 Masculine</Link> */}
-                    <Link to='/api/equipe/2'><li>Nationale 3 Masculine</li></Link>
-                    <Link to='/api/equipe/3'><li>Prénationale Masculine</li></Link>
-                    <Link to='/api/equipe/4'><li>Régionale Masculine</li></Link>
-                    <Link to='/api/equipe/8'><li>Régionale Féminine</li></Link>
+                    <Link to='/equipe-senior/2'><li>Nationale 3 Masculine</li></Link>
+                    <Link to='/equipe-senior/3'><li>Prénationale Masculine</li></Link>
+                    <Link to='/equipe-senior/4'><li>Régionale Masculine</li></Link>
+                    <Link to='/equipe-senior/8'><li>Régionale Féminine</li></Link>
                     <Link to="#"><li>Départementales Masculines</li></Link>
                     <Link to="#"><li>Départementale Féminine</li></Link>
-                    <Link to='/api/equipe/1'><li>Ufolep</li></Link>
-                    <Link to='/api/equipe/9'><li>Volley assis</li></Link>
+                    <Link to='/equipe-senior/1'><li>Ufolep</li></Link>
+                    <Link to='/equipe-senior/9'><li>Volley assis</li></Link>
                     <Link to="#"><li>Loisirs</li></Link>
                   </ul>
                 </div>
@@ -86,7 +86,7 @@ export default function MenuNavbar({ /*auth*/ }) {
                 </div>
                 <div className='dropdown-content w-48'>
                   <ul>
-                    <Link to='/api/partenaires'><li>Nos partenaires</li></Link>
+                    <Link to='/partenaires'><li>Nos partenaires</li></Link>
                     <Link to='/devenez-partenaire'><li>Devenez partenaire</li></Link>
                   </ul>
                 </div>

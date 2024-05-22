@@ -17,7 +17,7 @@ export default function Reseaux() {
             </div>
             <div className='flex justify-center'>
                 <ButtonGold
-                    href = '/api/actualites'
+                    href = '/actualites'
                     classNameButton = 'button-post' 
                     content = 'Voir nos dernières actualités'
                 />

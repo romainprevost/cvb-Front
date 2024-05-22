@@ -16,8 +16,7 @@ export default function Partenaires( {auth} ) {
 
     useEffect(() =>{
         // Fonction asynchrone pour récupérer les articles
-        const fetchActualites = async() => {
-            console.log(partnersHelp);
+        const fetchPartenaires = async() => {
           try {
             const response = await axios.get('/api/partenaires')
             setPartnersInstitutionnels(response.data.partnersInstitutionnels)
@@ -28,7 +27,7 @@ export default function Partenaires( {auth} ) {
             console.error(err);
           }
         }
-        fetchActualites();
+        fetchPartenaires();
     }, []);
 
     return (

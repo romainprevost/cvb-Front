@@ -1,12 +1,38 @@
 import Footer from '@/Layouts/Footer'
 import Header from '@/Layouts/Header'
-import React from 'react'
-
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import '../../../sass/equipes.scss'  
 
+import axios from '@/libs/axios';
 
-export default function Equipes( {auth, equipe, coachs} ) {
-  const joueurs = equipe.joueurs
+
+export default function Equipes( {auth} ) {
+
+  const { equipe_id } = useParams();
+
+  const [equipe, setEquipe] = useState([]);
+
+  const [coachs, setCoachs] = useState([]);
+
+  const [joueurs, setJoueurs] = useState([]);
+
+  useEffect(() =>{
+    const fetchEquipe = async() => {
+      try {
+        const response = await axios.get(`/api/equipe-senior/${equipe_id}`)
+        setEquipe(response.data.equipe)
+        setCoachs(response.data.coachs)
+        setJoueurs(response.data.equipe.joueurs)
+              
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchEquipe();
+  }, [equipe_id]); // Ajouter equipe_id comme dépendance
+
 
   return (
     <>

@@ -33,7 +33,7 @@ export default function Actualites() {
           <h2>LES ACTUALITÉS</h2>
           <div className="flex justify-center mt-10">
             <div className="first-actu">
-              <Link to={`/api/actualite/${firstActu.id}`}>
+              <Link to={`/actualite/${firstActu.id}`}>
                 <div className='relative'>
                     <img src={firstActu.photo} alt="main actus" />
                     <div className="filtre-img"></div>
@@ -49,7 +49,7 @@ export default function Actualites() {
                   <div 
                   key={actu.id}
                   className='block-others-actus'>
-                    <Link to={`/api/actualite/${actu.id}`}>
+                    <Link to={`/actualite/${actu.id}`}>
                         <p className='ml-3'>Le { moment(actu.created_at).locale('fr').format('DD/MM/YYYY') }</p>
                         <h3 className='ml-3 mt-2'><strong> { actu.titre }</strong></h3>
                     </Link>                  
@@ -57,7 +57,7 @@ export default function Actualites() {
                 ))
               }
               <ButtonGold
-                href = '/api/actualites'
+                href = '/actualites'
                 classNameButton = 'all-actus' 
                 content = 'TOUTES LES ACTUS'
               />
