@@ -12,7 +12,6 @@ export default function MenuNavbar({ /*auth*/ }) {
         <ul className='MenuNavbar mt-8'>
           <li>
             <Link to="/" className='itemMenu'>
-            {/* <Link to={route('welcome')} className='itemMenu'> */}
               <span>Accueil</span>
             </Link>
           </li>

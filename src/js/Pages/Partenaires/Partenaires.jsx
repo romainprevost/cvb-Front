@@ -1,11 +1,36 @@
 import Footer from '@/Layouts/Footer'
 import Header from '@/Layouts/Header'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import '../../../sass/divers.scss'  
 
+import axios from '@/libs/axios';
 
-export default function Partenaires( {auth, partnersInstitutionnels, partnersHelp, partnersPrivate} ) {
+
+
+export default function Partenaires( {auth} ) {
+
+    const [partnersInstitutionnels, setPartnersInstitutionnels] = useState([]);
+    const [partnersHelp, setPartnersHelp] = useState([]);
+    const [partnersPrivate, setPartnersPrivate] = useState([]);
+
+    useEffect(() =>{
+        // Fonction asynchrone pour récupérer les articles
+        const fetchActualites = async() => {
+            console.log(partnersHelp);
+          try {
+            const response = await axios.get('/api/partenaires')
+            setPartnersInstitutionnels(response.data.partnersInstitutionnels)
+            setPartnersHelp(response.data.partnersHelp)
+            setPartnersPrivate(response.data.partnersPrivate)
+                        
+          } catch (err) {
+            console.error(err);
+          }
+        }
+        fetchActualites();
+    }, []);
+
     return (
     <>
         {/* <Head title='Les partenaires' /> */}

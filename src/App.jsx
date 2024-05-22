@@ -35,12 +35,16 @@ function App() {
 
         {/*---------------- Users ----------------*/}
         <Route path='/api/users' element={<Test />} />
+        
         {/*---------------- Dashboard ----------------*/}
         <Route path='/cvb-admin' element={''} />
 
         {/*---------------- Actualites ----------------*/}
         <Route path='/api/actualites' element={<Actualites />} />
         <Route path='/api/actualite/:actu' element={<Show />} />
+
+        {/*---------------- Equipes ----------------*/}
+        <Route path='/api/equipes/:equipe' element={<Equipes />} />
 
         {/*---------------- Divers ----------------*/}
         <Route path='/projet' element={<Projet />} />
@@ -55,16 +59,12 @@ function App() {
         <Route path='/modeEmploiLicence' element={<ModeEmploiLicence />} />
         <Route path='/documentsDivers' element={<DocumentsDivers />} />
 
-        {/*---------------- Equipes ----------------*/}
-        <Route path='/api/equipes/:equipe' element={<Equipes />} />
-
         {/*---------------- Partenaires ----------------*/}
         <Route path='/api/partenaires' element={<Partenaires />} />
         <Route path='/devenez-partenaire' element={<DevenezPartenaire />} />
 
         {/*---------------- Boutique ----------------*/}
         <Route path='/boutique' element={<Boutique />} />
-
 
       </Routes>
     </>

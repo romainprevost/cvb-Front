@@ -8,7 +8,7 @@ import Actualites from '@/Components/Actualites'
 import Reseaux from '@/Components/Reseaux'
 import Partenaires from '@/Components/Partenaires'
 
-export default function Welcome({auth, firstActu, othersActu, partners}) {
+export default function Welcome({auth}) {
   console.log(auth);
   
   return (
@@ -20,7 +20,7 @@ export default function Welcome({auth, firstActu, othersActu, partners}) {
         />
 
         <MainPhoto 
-          src='/assets/images/cover.jpg'
+          src='/assets/images/cover.webp'
           alt={"Caen Volley Ball Photo"}
           className={'main-photo-cover'}
         />
@@ -41,7 +41,7 @@ export default function Welcome({auth, firstActu, othersActu, partners}) {
 
         <Reseaux />
 
-        {/* <Partenaires partners={partners}/> */}
+        <Partenaires />
 
         <Footer />
 

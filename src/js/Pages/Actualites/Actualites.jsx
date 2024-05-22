@@ -22,16 +22,13 @@ export default function Actualites({ auth }) {
           try {
             const response = await axios.get('/api/actualites')
             setActualites(response.data.actualites)
-            
-            console.log(response.data.actualites);
-            
+                        
           } catch (err) {
             console.error(err);
           }
         }
-    
         fetchActualites();
-      }, []);
+    }, []);
 
 
   return (
@@ -42,7 +39,7 @@ export default function Actualites({ auth }) {
 
         <div className='bloc-main-photo'>
             <MainPhoto 
-            src='/assets/images/cover2baw.jpg'
+            src='/assets/images/cover2baw.webp'
             alt={"Caen Volley Ball Photo"}
             className={'main-photo'}
             />
