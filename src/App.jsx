@@ -3,6 +3,8 @@ import { Router, Routes, Route, Link } from 'react-router-dom';
 
 import Welcome from '@/Pages/Welcome';
 import Test from '@/Pages/Test';
+
+import Dashboard from './js/Pages/Dashboard';
 //actualites
 import Actualites from '@/Pages/Actualites/Actualites';
 import Show from '@/Pages/Actualites/Show';
@@ -22,7 +24,7 @@ import Equipes from '@/Pages/Equipe/Equipes';
 //partenaires
 import Partenaires from '@/Pages/Partenaires/Partenaires';
 import DevenezPartenaire from '@/Pages/Partenaires/DevenezPartenaire';
-//boutiqie
+//boutique
 import Boutique from '@/Pages/Boutique/Boutique';
 
 
@@ -38,7 +40,7 @@ function App() {
 
         {/*---------------- Dashboard ----------------*/}
         <Route path='/cvb-admin' element={''} />
-        <Route path='/dashboard' element={''} />
+        <Route path='/dashboard' element={<Dashboard />} />
 
         {/*---------------- Profil ----------------*/}
         <Route path='/profile' element={''} />

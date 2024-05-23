@@ -1,8 +1,28 @@
 import {React, useState, useEffect } from 'react';
-import { router } from '@inertiajs/react'
+// import { router } from '@inertiajs/react'
 import ButtonAddUser from './ButtonAddUser';
 
-const Users = ({ user, staff }) => {
+import axios from '@/libs/axios';
+
+const Users = ({ user }) => {
+
+  //recuperation JSON contenant infos du staff
+  const [staff, setStaff] = useState([]);
+
+  useEffect(() =>{
+    // Fonction asynchrone pour récupérer les articles
+    const fetchStaff = async() => {
+      try {
+        const response = await axios.get('/api/dashboard')
+        setStaff(response.data.staff)
+              
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchStaff();
+  }, []);
 
   const [formData, setFormData] = useState({ //recuperation des data de utilisateur ciblé
     id :'',
@@ -59,9 +79,15 @@ const Users = ({ user, staff }) => {
     // Envoyez la requête POST une fois que formData est mis à jour
     if (formData.name !== '' && formData.email !== '' && utilisateurId !== null && action !== null) {
       if (action === 'delete') {
-        router.post(`/user/delete/${utilisateurId}`, formData); // Envoyez la requête POST d'édition
+        const fetchDeleteStaff = async() => {
+          const data = await axios.post(`/api/user/delete/${utilisateurId}`, formData)
+        }
+        fetchDeleteStaff();
       } else if (action === 'update') {
-        router.post(`/user/update/${utilisateurId}`, formData); // Envoyez la requête POST de suppression
+        const fetchUpdateStaff = async() => {
+            const data = await axios.post(`/api/user/delete/${utilisateurId}`, formData)
+          }    
+          fetchUpdateStaff(); 
       }
       // Réinitialiser l'état de l'action après l'exécution de la requête POST
       // setAction('');

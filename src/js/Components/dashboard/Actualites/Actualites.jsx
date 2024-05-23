@@ -2,7 +2,7 @@ import React from 'react'
 import ButtonAddActu from './ButtonAddActu'
 import ListeActus from './ListeActus'
 
-export default function Actualites({actualites}) {
+export default function Actualites() {
 
 
   return (
@@ -11,9 +11,7 @@ export default function Actualites({actualites}) {
         <ButtonAddActu />
       </div>
       <div className="liste-actus mt-24">
-        <ListeActus 
-          actualites={actualites}
-        />
+        <ListeActus />
       </div>
     </>
   )

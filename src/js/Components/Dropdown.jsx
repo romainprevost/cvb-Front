@@ -1,6 +1,9 @@
 import { useState, createContext, useContext, Fragment } from 'react';
-import { Link } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+// import { Link } from '@inertiajs/react';
+
+import { Router, Routes, Route, Link } from 'react-router-dom';
+
 
 const DropDownContext = createContext();
 

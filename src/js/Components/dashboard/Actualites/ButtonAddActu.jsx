@@ -1,6 +1,7 @@
 import {React, useState} from 'react'
 import moment from 'moment'
-import { router } from '@inertiajs/react'
+import axios from '@/libs/axios';
+
 
 
 export default function ButtonAddActu() {
@@ -37,8 +38,12 @@ export default function ButtonAddActu() {
                 formDataToSend.append('image', formData.image); 
         
     
-    
-                router.post(`/actu/create`, formDataToSend); // Envoyez la requete au controller pour traitement en bdd
+                const fetchDeleteActualite = async() => {
+                    const data = await axios.post(`/api/actualite/create`, formDataToSend)
+                    // Envoyez la requete au controller pour traitement en bdd
+                  }    
+                fetchDeleteActualite(); 
+                
                 setErrorForm(false);
                 setValidForm(true); //confirm que le formulaire est bien valide
 

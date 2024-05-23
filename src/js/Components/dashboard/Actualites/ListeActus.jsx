@@ -1,8 +1,25 @@
 import {React, useState, useEffect} from 'react'
-import { router } from '@inertiajs/react'
+import axios from '@/libs/axios';
 
 
-export default function ListeActus({actualites}) {
+
+export default function ListeActus() {
+
+    const [actualites, setActualites] = useState([]);
+
+    useEffect(() =>{
+        // Fonction asynchrone pour récupérer les articles
+        const fetchActualites = async() => {
+            try {
+                const response = await axios.get('/api/dashboard')
+                setActualites(response.data.actualites)
+                    
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchActualites();
+    }, [setActualites]);
 
     const [page, setPage] = useState(1); // État pour suivre la page actuelle
 
@@ -15,14 +32,21 @@ export default function ListeActus({actualites}) {
         return actualites.slice(startIndex, endIndex);
     };
 
+    // Calcul du nombre total de pages
+    const totalPages = Math.ceil(actualites.length / articlesPerPage);
+
     // Fonction pour passer à la page suivante
     const nextPage = () => {
-        setPage(page + 1);
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
     };
 
     // Fonction pour passer à la page précédente
     const prevPage = () => {
-        setPage(page - 1);
+        if (page > 1) {
+            setPage(page - 1);
+        }
     };
 
     const truncateContent = (content, maxContentLength) => { //fonction pour tronquer la taille du texte ou du titre pour ne pas avoir un tableau avec trop de texte
@@ -32,14 +56,24 @@ export default function ListeActus({actualites}) {
         return content;
     };
 
-    const handleEdit = () => {
+    const handleEdit = (actualite) => {
+        console.log(actualite);
         
     }
 
-    const handleDelete = (actuId) => {
+    const handleDelete = (actualite) => {
+        console.log(actualite);
         const isConfirmed = window.confirm(`Voulez-vous vraiment supprimer cet article ?`);
         if (isConfirmed) {
-            router.post(`/actu/delete/${actuId}`, actuId); // Envoyez la requête POST d'édition
+            const fetchDeleteActualite = async() => {
+                try{
+                    const data = await axios.post(`/api/actualite/delete/${actualite.id}`, actualite)
+                    setActualites(prevActualites => prevActualites.filter(item => item.id !== actualite.id)); // filtre de l'item qui vient d'etre supprimé afin de reactualiser la liste en dropant la ligne supprimée...
+                } catch (err) {
+                    console.error(err);
+                }
+            }    
+            fetchDeleteActualite(); 
         }
     }
 
@@ -69,12 +103,12 @@ export default function ListeActus({actualites}) {
                         </td>
                         <td>{truncateContent(actualite.content, 150)}</td>
                         <td>
-                            <button className='button-edit' onClick={() => handleEdit()}>
+                            <button className='button-edit' onClick={() => handleEdit(actualite)}>
                                 <img src="/assets/icones/edit-button.png" alt="button edit" />
                             </button>
                         </td>
                         <td>
-                            <button className='button-delete' onClick={() => handleDelete(actualite.id)}>
+                            <button className='button-delete' onClick={() => handleDelete(actualite)}>
                                 <img src="/assets/icones/delete-button.png" alt="button delete" />
                             </button>
                         </td>
@@ -88,7 +122,9 @@ export default function ListeActus({actualites}) {
             {page != 1 && (
                 <button className='prev-button' onClick={prevPage}>Page précédente</button>
             )}
-            <button className='next-button' onClick={nextPage} disabled={getPaginatedArticles().length < articlesPerPage}>Page suivante</button>
+            {page < totalPages && (
+                    <button className='next-button' onClick={nextPage}>Page suivante</button>
+            )}
         </div>
     </>
   )

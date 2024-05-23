@@ -14,7 +14,7 @@ import Shop from '@/Components/dashboard/Shop/Shop';
 import Default from '@/Components/dashboard/Default/Default';
 
 
-export default function Authenticated({ user, staff, joueurs, actualites, equipesJeunes, equipesSeniors, partenaires, children }) {
+export default function Authenticated({ user, partenaires, children }) {
     const [selectedMenuItem, setSelectedMenuItem] = useState('default');
 
     const handleMenuChange = (menuItem) => {
@@ -25,20 +25,14 @@ export default function Authenticated({ user, staff, joueurs, actualites, equipe
         switch (selectedMenuItem) {
             case 'users':
                 return <Users 
-                    staff={staff}
                     user={user}
                 />;
             case 'actualites':
-                return <Actualites 
-                    actualites={actualites} 
-                />;
+                return <Actualites />;
             case 'club':
                 return <Club />;
             case 'equipes':
-                return <Equipes 
-                    equipesJeunes={equipesJeunes} 
-                    equipesSeniors={equipesSeniors} 
-                />;
+                return <Equipes />;
             case 'partenaires':
                 return <Partenaires 
                     partenaires={partenaires} 
@@ -48,11 +42,7 @@ export default function Authenticated({ user, staff, joueurs, actualites, equipe
                 
                 />;
             default:
-                return <Default 
-                    joueurs={joueurs}
-                    equipesJeunes={equipesJeunes} 
-                    equipesSeniors={equipesSeniors}
-                />;
+                return <Default />;
         }
     };
 
@@ -67,11 +57,8 @@ export default function Authenticated({ user, staff, joueurs, actualites, equipe
                             filePath="/assets/images/logo-cvb-black.png"
                         />
                     </div>
-
                     <Menu onMenuChange={handleMenuChange}/>
-
                 </aside>
-                
                 <article>
                     <nav>
                         <Profile 
@@ -83,8 +70,6 @@ export default function Authenticated({ user, staff, joueurs, actualites, equipe
                         {renderSection()}
                     </section>
                 </article>
-
-
             </div>
         </>
     );
