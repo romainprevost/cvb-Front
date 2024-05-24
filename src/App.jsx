@@ -26,6 +26,7 @@ import Partenaires from '@/Pages/Partenaires/Partenaires';
 import DevenezPartenaire from '@/Pages/Partenaires/DevenezPartenaire';
 //boutique
 import Boutique from '@/Pages/Boutique/Boutique';
+import Login from './js/Pages/Auth/Login';
 
 
 function App() {
@@ -39,7 +40,7 @@ function App() {
         <Route path='/users' element={<Test />} />
 
         {/*---------------- Dashboard ----------------*/}
-        <Route path='/cvb-admin' element={''} />
+        <Route path='/cvb-admin' element={<Login />} />
         <Route path='/dashboard' element={<Dashboard />} />
 
         {/*---------------- Profil ----------------*/}

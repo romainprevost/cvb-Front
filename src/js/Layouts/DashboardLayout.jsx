@@ -14,7 +14,7 @@ import Shop from '@/Components/dashboard/Shop/Shop';
 import Default from '@/Components/dashboard/Default/Default';
 
 
-export default function Authenticated({ user, partenaires, children }) {
+export default function Authenticated({ user, children }) {
     const [selectedMenuItem, setSelectedMenuItem] = useState('default');
 
     const handleMenuChange = (menuItem) => {
@@ -34,9 +34,7 @@ export default function Authenticated({ user, partenaires, children }) {
             case 'equipes':
                 return <Equipes />;
             case 'partenaires':
-                return <Partenaires 
-                    partenaires={partenaires} 
-                />;
+                return <Partenaires />;
             case 'shop':
                 return <Shop 
                 
@@ -45,8 +43,6 @@ export default function Authenticated({ user, partenaires, children }) {
                 return <Default />;
         }
     };
-
-
 
     return (
         <>
