@@ -1,58 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Checkbox from '@/Components/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import { useForm } from '@inertiajs/react';
+
 import { Link } from 'react-router-dom';
-import axios from '@/libs/axios';
 
 
 export default function Login() {
-    
-    const [data, setData] = useState({
+    const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
         remember: false,
     });
-    const [errors, setErrors] = useState({});
-    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         return () => {
-            setData((prevData) => ({ ...prevData, password: '' }));
+            reset('password');
         };
     }, []);
 
-    const submit = async(e) => {
+    const submit = (e) => {
         e.preventDefault();
-        setProcessing(true);
-        setErrors({});
 
-        try {
-            const response = await axios.post('/api/cvb-login', data)
-
-            // // Handle successful login, e.g., redirect to dashboard
-            // window.location.href = '/dashboard';
-                        
-          } catch (err) {
-            if (err.response) {
-                setErrors(err.response.data.errors || {});
-            } else {
-                console.error('An error occurred:', err);
-            }
-            setProcessing(false);
-          }
-
-    };
-
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setData({
-            ...data,
-            [name]: type === 'checkbox' ? checked : value,
-        });
+        post(route('login'));
     };
 
     return (
@@ -71,7 +45,7 @@ export default function Login() {
                         className="mt-1 block w-full"
                         autoComplete="username"
                         isFocused={true}
-                        onChange={handleChange}
+                        onChange={(e) => setData('email', e.target.value)}
                     />
 
                     <InputError message={errors.email} className="mt-2" />
@@ -87,7 +61,7 @@ export default function Login() {
                         value={data.password}
                         className="mt-1 block w-full"
                         autoComplete="current-password"
-                        onChange={handleChange}
+                        onChange={(e) => setData('password', e.target.value)}
                     />
 
                     <InputError message={errors.password} className="mt-2" />
@@ -98,7 +72,7 @@ export default function Login() {
                         <Checkbox
                             name="remember"
                             checked={data.remember}
-                            onChange={handleChange}
+                            onChange={(e) => setData('remember', e.target.checked)}
                         />
                         <span className="ms-2 text-sm text-gray-600">Remember me</span>
                     </label>
@@ -106,7 +80,7 @@ export default function Login() {
 
                 <div className="flex items-center justify-end mt-4">                    
                     <PrimaryButton className="ms-4" disabled={processing}>
-                        Login
+                        Log in
                     </PrimaryButton>
                 </div>
             </form>
