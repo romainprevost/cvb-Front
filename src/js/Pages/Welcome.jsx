@@ -8,16 +8,14 @@ import Actualites from '@/Components/Actualites'
 import Reseaux from '@/Components/Reseaux'
 import Partenaires from '@/Components/Partenaires'
 
-export default function Welcome({auth}) {
-  console.log(auth);
+export default function Welcome() {
+  // console.log(auth);
   
   return (
     <>
         {/* <Head title="Accueil" /> */}
 
-        <Header 
-          auth={auth}
-        />
+        <Header />
 
         <MainPhoto 
           src='/assets/images/cover.webp'

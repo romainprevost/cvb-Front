@@ -5,12 +5,12 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from '@/libs/axios';
 
 
 export default function Login() {
-    
+    const navigate = useNavigate();
     const [data, setData] = useState({
         email: '',
         password: '',
@@ -19,12 +19,6 @@ export default function Login() {
     const [errors, setErrors] = useState({});
     const [processing, setProcessing] = useState(false);
 
-    useEffect(() => {
-        return () => {
-            setData((prevData) => ({ ...prevData, password: '' }));
-        };
-    }, []);
-
     const submit = async(e) => {
         e.preventDefault();
         setProcessing(true);
@@ -32,16 +26,17 @@ export default function Login() {
 
         try {
             const response = await axios.post('/api/cvb-login', data)
-
-            // // Handle successful login, e.g., redirect to dashboard
+            if (response.data.message === "Login successful") {
+                navigate('/dashboard');
             // window.location.href = '/dashboard';
-                        
+
+            }                        
           } catch (err) {
-            if (err.response) {
-                setErrors(err.response.data.errors || {});
-            } else {
-                console.error('An error occurred:', err);
-            }
+            // if (err.response) {
+            //     setErrors(err.response.data.errors || {});
+            // } else {
+            //     console.error('An error occurred:', err);
+            // }
             setProcessing(false);
           }
 
@@ -56,8 +51,15 @@ export default function Login() {
     };
 
     return (
+        
         <GuestLayout>
             {/* <Head title="Log in" /> */}
+
+            <Link to="/dashboard">
+            <PrimaryButton className="ms-4">
+                Go to Dashboard
+            </PrimaryButton>
+            </Link>
 
             <form onSubmit={submit}>
                 <div>

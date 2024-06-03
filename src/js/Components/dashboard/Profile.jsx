@@ -1,8 +1,23 @@
 import React from 'react'
-import {Link } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext'; // Importez useAuth
+import axios from '@/libs/axios';
 
+export default function Profile() {
+    const { auth, adminIsLogin, loading } = useAuth(); // Utilise le contexte d'authentification
 
-export default function Profile({user}) {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+          await axios.post('/api/cvb-logout');
+          // Redirigez l'utilisateur vers la page de connexion
+          window.location.href = '/cvb-admin';
+        } catch (error) {
+          console.error('Erreur lors de la déconnexion:', error);
+        }
+      };
+
   return (
     <>
         <div className="dropdown-profil hidden sm:flex sm:items-center sm:ms-6">
@@ -11,7 +26,7 @@ export default function Profile({user}) {
                             type="button"
                             className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                         >
-                            {/* {(user.name).charAt(0).toUpperCase() + (user.name).slice(1)} */}
+                            {/* {(auth.name).charAt(0).toUpperCase() + (auth.name).slice(1)} */}
 
                             <svg
                                 className="ms-2 -me-0.5 h-4 w-4"
@@ -28,9 +43,15 @@ export default function Profile({user}) {
                         </button>
 
                         <Link to='/profile.edit'>Profile</Link>
-                        <Link to='/logout' method="post" as="button">
+                        {/* <Link to='/cvb-logout' method="post" as="button">
                             Log Out
-                        </Link>
+                        </Link> */}
+                        <button
+                            onClick={handleLogout}
+                            className="text-red-500"
+                        >
+                            Log Out
+                        </button>
 
             </div>
         </div>

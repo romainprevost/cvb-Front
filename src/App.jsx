@@ -1,9 +1,11 @@
 import './sass/welcome.scss'
+import { useEffect, useState } from 'react';
 import { Router, Routes, Route, Link } from 'react-router-dom';
+import { AuthProvider } from '@/context/AuthContext.jsx'; // Importez AuthProvider
+import axios from '@/libs/axios';
+
 
 import Welcome from '@/Pages/Welcome';
-import Test from '@/Pages/Test';
-
 import Dashboard from './js/Pages/Dashboard';
 //actualites
 import Actualites from '@/Pages/Actualites/Actualites';
@@ -32,50 +34,49 @@ import Login from './js/Pages/Auth/Login';
 function App() {
 
   return (
-    <>
-      <Routes>
-        <Route path='/' element={<Welcome />} />
+      <AuthProvider>        
+        <Routes>
+          <Route path='/' element={<Welcome />} />
 
-        {/*---------------- Users ----------------*/}
-        <Route path='/users' element={<Test />} />
+          {/*---------------- Users ----------------*/}
 
-        {/*---------------- Dashboard ----------------*/}
-        <Route path='/cvb-admin' element={<Login />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+          {/*---------------- Dashboard ----------------*/}
+          <Route path='/cvb-admin' element={<Login />} />
+          <Route path='/dashboard' element={<Dashboard />} />
 
-        {/*---------------- Profil ----------------*/}
-        <Route path='/profile' element={''} />
+          {/*---------------- Profil ----------------*/}
+          <Route path='/profile' element={''} />
 
 
-        {/*---------------- Actualites ----------------*/}
-        <Route path='/actualites' element={<Actualites />} />
-        <Route path='/actualite/:actu' element={<Show />} />
+          {/*---------------- Actualites ----------------*/}
+          <Route path='/actualites' element={<Actualites />} />
+          <Route path='/actualite/:actu' element={<Show />} />
 
-        {/*---------------- Equipes ----------------*/}
-        <Route path='/equipe-senior/:equipe_id' element={<Equipes />} />
+          {/*---------------- Equipes ----------------*/}
+          <Route path='/equipe-senior/:equipe_id' element={<Equipes />} />
 
-        {/*---------------- Divers ----------------*/}
-        <Route path='/projet' element={<Projet />} />
-        <Route path='/historique' element={<Historique />} />
-        <Route path='/organigramme' element={<Organigramme />} />
-        <Route path='/reglement' element={<Reglement />} />
-        <Route path='/statuts' element={<Statuts />} />
-        <Route path='/planning' element={<Planning />} />
+          {/*---------------- Divers ----------------*/}
+          <Route path='/projet' element={<Projet />} />
+          <Route path='/historique' element={<Historique />} />
+          <Route path='/organigramme' element={<Organigramme />} />
+          <Route path='/reglement' element={<Reglement />} />
+          <Route path='/statuts' element={<Statuts />} />
+          <Route path='/planning' element={<Planning />} />
 
-        <Route path='/tarifs' element={<Tarifs />} />
-        <Route path='/modalites' element={<Modalites />} />
-        <Route path='/modeEmploiLicence' element={<ModeEmploiLicence />} />
-        <Route path='/documentsDivers' element={<DocumentsDivers />} />
+          <Route path='/tarifs' element={<Tarifs />} />
+          <Route path='/modalites' element={<Modalites />} />
+          <Route path='/modeEmploiLicence' element={<ModeEmploiLicence />} />
+          <Route path='/documentsDivers' element={<DocumentsDivers />} />
 
-        {/*---------------- Partenaires ----------------*/}
-        <Route path='/partenaires' element={<Partenaires />} />
-        <Route path='/devenez-partenaire' element={<DevenezPartenaire />} />
+          {/*---------------- Partenaires ----------------*/}
+          <Route path='/partenaires' element={<Partenaires />} />
+          <Route path='/devenez-partenaire' element={<DevenezPartenaire />} />
 
-        {/*---------------- Boutique ----------------*/}
-        <Route path='/boutique' element={<Boutique />} />
+          {/*---------------- Boutique ----------------*/}
+          <Route path='/boutique' element={<Boutique />} />
 
-      </Routes>
-    </>
+        </Routes>
+      </AuthProvider>
   )
 }
 
