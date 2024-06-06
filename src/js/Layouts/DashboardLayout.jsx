@@ -14,7 +14,7 @@ import Shop from '@/Components/dashboard/Shop/Shop';
 import Default from '@/Components/dashboard/Default/Default';
 
 
-export default function Authenticated({ user, children }) {
+export default function Authenticated() {
     const [selectedMenuItem, setSelectedMenuItem] = useState('default');
 
     const handleMenuChange = (menuItem) => {
@@ -24,9 +24,7 @@ export default function Authenticated({ user, children }) {
     const renderSection = () => {
         switch (selectedMenuItem) {
             case 'users':
-                return <Users 
-                    user={user}
-                />;
+                return <Users />;
             case 'actualites':
                 return <Actualites />;
             case 'club':
@@ -57,9 +55,7 @@ export default function Authenticated({ user, children }) {
                 </aside>
                 <article>
                     <nav>
-                        <Profile 
-                        user={user}
-                        />
+                        <Profile />
                     </nav>
                     <section>
                         {/* renvoi le menu item choisi dans le composant menu */}

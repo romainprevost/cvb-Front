@@ -5,8 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
-  // const [auth, setAuth] = useState([]);
-  const [adminIsLogin, setAdminIsLogin] = useState(false);
+  const [adminIsLogged, setAdminIsLogged] = useState(false); // pour mettre un etat si un admin est connecter (ou membre du staff)
   const [loading, setLoading] = useState(true); // pour attendre que la requête soit terminée
   
   useEffect(() =>{
@@ -14,11 +13,12 @@ export const AuthProvider = ({ children }) => {
     const fetchAuth = async() => {
       try {
         const response = await axios.get('/api/user')
-        if (response.status === 200) {
-          setAuth(response.data.data)
-          // console.log(response.data.data.role); 
-          if (response.data.data.role === 'admin' || response.data.data.role === 'staff'){
-            setAdminIsLogin(true);
+        if (response.status === 200) { //si retour requete ok
+          const user = response.data.data;
+          setAuth(user) //on stock l'objet recupérer de la bdd avec le current user dans le setter de auth
+          // console.log(user.role); 
+          if (user.role === 'admin' || user.role === 'staff'){
+            setAdminIsLogged(true); //si admin ou staff, on valide l'admin logged en le basculant a true
           }
         }
       } catch (err) {
@@ -31,21 +31,17 @@ export const AuthProvider = ({ children }) => {
     fetchAuth();
   }, []);  
   
-  const login = (data) => {
-    setAuth(data);
-    if (data.user_role === 'admin' || data.user_role === 'staff') {
-      setAdminIsLogin(true);
+  //fonction pour la page login
+  const login = (data) => { // on creer une fonction login pour valider le retour du back suite a l'envoi du formulaire
+    setAuth(data); //on stock les valeurs de data dans setAuth depuis le retour back du form login
+    if (data.role === 'admin' || data.role === 'staff') {
+      setAdminIsLogged(true);
     }
   };
 
-  // useEffect(() => {
-  //   if (auth && auth.name && auth.email && auth.role === 'admin') {
-  //     setAdminIsLogin(true);
-  //   }
-  // }, []);
-
   return (
-    <AuthContext.Provider value={{ auth, adminIsLogin, loading, login }}>
+    //encapsulation de l'enfant dans le context avec les value que l'on souhaite envoyer
+    <AuthContext.Provider value={{ auth, adminIsLogged, loading, login }}> 
       {children}
     </AuthContext.Provider>
   );

@@ -1,13 +1,12 @@
 import {React, useState, useEffect } from 'react';
-// import { router } from '@inertiajs/react'
 import ButtonAddUser from './ButtonAddUser';
-
 import axios from '@/libs/axios';
+import { useAuth } from '@/context/AuthContext'; // Importez useAuth
 
-const Users = ({ user }) => {
-
+const Users = () => {
   //recuperation JSON contenant infos du staff
   const [staff, setStaff] = useState([]);
+  const { auth } = useAuth(); // Utilise le contexte d'authentification
 
   useEffect(() =>{
     // Fonction asynchrone pour récupérer les articles
@@ -22,7 +21,7 @@ const Users = ({ user }) => {
     }
 
     fetchStaff();
-  }, []);
+  }, [auth]);
 
   const [formData, setFormData] = useState({ //recuperation des data de utilisateur ciblé
     id :'',
@@ -98,7 +97,6 @@ const Users = ({ user }) => {
       <>
       <hr />
         <div className="users" >
-
           <div className='ml-8 mb-8'>
             <div>
               <ButtonAddUser />
@@ -111,12 +109,8 @@ const Users = ({ user }) => {
                 <th>ID</th>
                 <th>Nom</th>
                 <th>Email</th>
-                {user.role === 'admin' && (
-                  <>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                  </>
-                )}
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -125,21 +119,17 @@ const Users = ({ user }) => {
                   <tr key={utilisateur.id}>
                     <td>{utilisateur.id}</td>
                     <td>{utilisateur.name}</td>
-                    <td>{utilisateur.email}</td>
-                    {user.role === 'admin' && ( //si user connecté est admin
-                      <>
-                        <td>
-                          <button className='button-edit' onClick={() => handleEdit(utilisateur.id, utilisateur.name, utilisateur.email)}>
-                            <img src="/assets/icones/edit-button.png" alt="button edit" />
-                          </button>
-                        </td>
-                        <td>
-                          <button className='button-delete' onClick={() => handleDelete(utilisateur.id, utilisateur.name, utilisateur.email)}>
-                            <img src="/assets/icones/delete-button.png" alt="button delete" />
-                          </button>
-                        </td>
-                      </>
-                    )}
+                    <td>{utilisateur.email}</td>                    
+                    <td>
+                      <button className='button-edit' onClick={() => handleEdit(utilisateur.id, utilisateur.name, utilisateur.email)}>
+                        <img src="/assets/icones/edit-button.png" alt="button edit" />
+                      </button>
+                    </td>
+                    <td>
+                      <button className='button-delete' onClick={() => handleDelete(utilisateur.id, utilisateur.name, utilisateur.email)}>
+                        <img src="/assets/icones/delete-button.png" alt="button delete" />
+                      </button>
+                    </td>
                   </tr>
                     {action === "edit" && (
                       <>

@@ -11,15 +11,15 @@ import axios from '@/libs/axios';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Login() {
-    const navigate = useNavigate();
-    const { login } = useAuth();
-    const [data, setData] = useState({
+    const navigate = useNavigate(); //fonction de react-router pour diriger vers une autre page en SPA
+    const { login } = useAuth(); //utilisation de la fonction login depuis le AuthContext
+    const [data, setData] = useState({ //stocker des données saisies du formulaire de log
         email: '',
         password: '',
         remember: false,
     });
-    const [errors, setErrors] = useState({});
-    const [processing, setProcessing] = useState(false);
+    const [errors, setErrors] = useState({}); //stock l'etat des erreurs
+    const [processing, setProcessing] = useState(false); // pour desactiver le bouton log une fois le bouton cliquer une premiere fois, pour eviter le spam de requete
 
     const submit = async(e) => {
         e.preventDefault();
@@ -32,16 +32,17 @@ export default function Login() {
             if (response.status === 200) {
                 if (response.data.loginSuccessful === true) {
                     // console.log('Login successful:', response.data.user_role);
-                    login({ user_role: response.data.user_role }); // Utilisez le rôle de l'utilisateur dans la réponse
+                    login(response.data.user); // Utilisez l'utilisateur dans la réponse
                     navigate(response.data.redirect_url);
+                    // window.location.href = response.data.redirect_url;
                 }                        
             }
           } catch (err) {
-            // if (err.response) {
-            //     setErrors(err.response.data.errors || {});
-            // } else {
-            //     console.error('An error occurred:', err);
-            // }
+            if (err.response) {
+                setErrors(err.response.data.errors || {});
+            } else {
+                console.error('An error occurred:', err);
+            }
             setProcessing(false);
           }
 
@@ -52,6 +53,7 @@ export default function Login() {
         setData({
             ...data,
             [name]: type === 'checkbox' ? checked : value,
+            // stock les valeurs recuperées par le formulaire pour les stocker dans le state data
         });
     };
 
