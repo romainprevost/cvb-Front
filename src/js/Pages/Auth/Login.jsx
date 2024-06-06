@@ -8,9 +8,11 @@ import TextInput from '@/Components/TextInput';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '@/libs/axios';
 
+import { useAuth } from '@/context/AuthContext';
 
 export default function Login() {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [data, setData] = useState({
         email: '',
         password: '',
@@ -26,11 +28,14 @@ export default function Login() {
 
         try {
             const response = await axios.post('/api/cvb-login', data)
-            if (response.data.message === "Login successful") {
-                navigate('/dashboard');
-            // window.location.href = '/dashboard';
-
-            }                        
+            console.log(response.data);
+            if (response.status === 200) {
+                if (response.data.loginSuccessful === true) {
+                    // console.log('Login successful:', response.data.user_role);
+                    login({ user_role: response.data.user_role }); // Utilisez le rôle de l'utilisateur dans la réponse
+                    navigate(response.data.redirect_url);
+                }                        
+            }
           } catch (err) {
             // if (err.response) {
             //     setErrors(err.response.data.errors || {});
@@ -54,12 +59,6 @@ export default function Login() {
         
         <GuestLayout>
             {/* <Head title="Log in" /> */}
-
-            <Link to="/dashboard">
-            <PrimaryButton className="ms-4">
-                Go to Dashboard
-            </PrimaryButton>
-            </Link>
 
             <form onSubmit={submit}>
                 <div>
