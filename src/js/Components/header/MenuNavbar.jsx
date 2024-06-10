@@ -4,8 +4,12 @@ import React from 'react'
 import ButtonGold from '../ButtonGold'
 import "../../../sass/dashboard.scss"
 
+import { useAuth } from '@/context/AuthContext'; // Importez useAuth
+
 export default function MenuNavbar({ /*auth*/ }) {
 // console.log(auth.user);
+  const { auth, adminIsLogged } = useAuth(); // Utilise le contexte d'authentification
+
   return (
     <>
       <div>
@@ -113,13 +117,13 @@ export default function MenuNavbar({ /*auth*/ }) {
               <span>Boutique</span>
             </Link>
           </li>
-          {/* {auth.user!=null && ( */}
+          {adminIsLogged && (
             <ButtonGold 
               href='/dashboard'
               content="Admin"
               classNameButton="bouton-admin"
             />
-          {/* )} */}
+          )}
         </ul>
       </div>
     </>

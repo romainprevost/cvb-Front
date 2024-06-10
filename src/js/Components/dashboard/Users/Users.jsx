@@ -8,8 +8,18 @@ const Users = () => {
   const [staff, setStaff] = useState([]);
   const { auth } = useAuth(); // Utilise le contexte d'authentification
 
+  const [utilisateurId, setUtilisateurId] = useState(''); // Déclarez utilisateurId comme un state
+
+  const [action, setAction] = useState(''); // Action à effectuer : "edit" ou "delete"
+
+  const [formData, setFormData] = useState({ //recuperation des data de utilisateur ciblé
+    id :'',
+    name: '',
+    email: ''
+  });
+
   useEffect(() =>{
-    // Fonction asynchrone pour récupérer les articles
+    // Fonction asynchrone pour récupérer les staff
     const fetchStaff = async() => {
       try {
         const response = await axios.get('/api/dashboard')
@@ -19,19 +29,9 @@ const Users = () => {
         console.error(err);
       }
     }
-
     fetchStaff();
-  }, [auth]);
+  }, [staff]);
 
-  const [formData, setFormData] = useState({ //recuperation des data de utilisateur ciblé
-    id :'',
-    name: '',
-    email: ''
-  });
-
-  const [utilisateurId, setUtilisateurId] = useState(''); // Déclarez utilisateurId comme un state
-
-  const [action, setAction] = useState(''); // Action à effectuer : "edit" ou "delete"
 
   //EDIT
   const handleEdit = (id, name, email) => {
@@ -53,8 +53,7 @@ const Users = () => {
     });
     setAction('update'); //remettre action par defaut
   }
-
-  
+ 
   //DELETE
   const handleDelete = (id, name, email) => {
     setUtilisateurId(id); // recuperer id de l'utilisateur ciblé
@@ -84,14 +83,14 @@ const Users = () => {
         fetchDeleteStaff();
       } else if (action === 'update') {
         const fetchUpdateStaff = async() => {
-            const data = await axios.post(`/api/user/delete/${utilisateurId}`, formData)
+            const data = await axios.post(`/api/user/update/${utilisateurId}`, formData)
           }    
           fetchUpdateStaff(); 
       }
       // Réinitialiser l'état de l'action après l'exécution de la requête POST
       // setAction('');
     }
-  }, [formData, utilisateurId]);
+  }, [staff, formData, utilisateurId]);
   
     return (
       <>
