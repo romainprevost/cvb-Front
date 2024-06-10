@@ -1,7 +1,8 @@
-import {React, useState} from 'react'
+import {React, useEffect, useState} from 'react'
+import axios from '@/libs/axios';
+
 
 export default function ButtonAddUser() {
-
     const [createUser, setCreateUser] = useState(false)
 
     const [formData, setFormData] = useState({
@@ -14,22 +15,6 @@ export default function ButtonAddUser() {
         setCreateUser(true)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        console.log(formData);
-        setFormData({
-            name: e.target.name.value,
-            email: e.target.email.value,
-            password: e.target.password.value
-        })
-        console.log(formData);
-
-        alert(`L'utilisateur ${formData.name} a bien été créé`)
-
-        setCreateUser(false)
-    }
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -38,6 +23,24 @@ export default function ButtonAddUser() {
 
         });
     };
+
+    const handleSubmit =async (e) => {
+        e.preventDefault();
+        console.log(formData);
+
+        try {
+            const response = await axios.post('/api/user/create/', formData);
+            console.log('User created:', response.data);
+            alert(`L'utilisateur ${formData.name} a bien été créé`);
+        } catch (error) {
+            console.error('Error creating user:', error);
+            alert('Une erreur est survenue lors de la création de l\'utilisateur.');
+        }
+        
+
+        setCreateUser(false)
+    }
+
 
   return (
     <>

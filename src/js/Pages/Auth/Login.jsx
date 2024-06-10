@@ -28,7 +28,7 @@ export default function Login() {
 
         try {
             const response = await axios.post('/api/cvb-login', data)
-            console.log(response.data);
+            // console.log(response.data);
             if (response.status === 200) {
                 if (response.data.loginSuccessful === true) {
                     // console.log('Login successful:', response.data.user_role);

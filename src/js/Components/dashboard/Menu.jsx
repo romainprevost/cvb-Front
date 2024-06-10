@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext'; // Importez useAuth
 export default function Menu( {onMenuChange}) {
   const { auth } = useAuth(); // Utilise le contexte d'authentification
 
-  console.log(auth.role);
+  // console.log(auth.role);
   const handleMenuClick = (menuItem) => {
     onMenuChange(menuItem);
   };

@@ -30,8 +30,7 @@ const Users = () => {
       }
     }
     fetchStaff();
-  }, [staff]);
-
+  }, []);
 
   //EDIT
   const handleEdit = (id, name, email) => {
@@ -52,6 +51,18 @@ const Users = () => {
       email: email //modif email
     });
     setAction('update'); //remettre action par defaut
+    
+    const updatedStaff = staff.map((user) => {
+      if (user.id !== id) {
+        return user
+      }
+      return {
+        ...user,
+        name,
+        email
+      }
+    })
+    setStaff(updatedStaff)
   }
  
   //DELETE
@@ -90,7 +101,7 @@ const Users = () => {
       // Réinitialiser l'état de l'action après l'exécution de la requête POST
       // setAction('');
     }
-  }, [staff, formData, utilisateurId]);
+  }, [formData]);
   
     return (
       <>
@@ -133,38 +144,36 @@ const Users = () => {
                     {action === "edit" && (
                       <>
                         {utilisateurId === utilisateur.id && (
-                          <tr>
-                            <>
-                              <td></td>
-                              <td>
-                                <div className='flex'>
-                                  <input 
-                                    type="text" 
-                                    value={formData.name} 
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                <div className='flex'>
-                                  <input 
-                                    type="text" 
-                                    value={formData.email} 
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}                                  
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                <button className='button-cancel' onClick={() => handleCancel()}>
-                                  <img src="/assets/icones/cancel.png" alt="button cancel" />
-                                </button>
-                              </td>
-                              <td>
-                                <button className='button-edit' onClick={() => updateHandleEdit(utilisateur.id, formData.name, formData.email)}>
-                                  <img src="/assets/icones/valid.png" alt="button check"/>
-                                </button>
-                              </td>
-                            </>
+                          <tr key={utilisateur.id}>
+                            <td></td>
+                            <td>
+                              <div className='flex'>
+                                <input 
+                                  type="text" 
+                                  value={formData.name} 
+                                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <div className='flex'>
+                                <input 
+                                  type="text" 
+                                  value={formData.email} 
+                                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}                                  
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <button className='button-cancel' onClick={() => handleCancel()}>
+                                <img src="/assets/icones/cancel.png" alt="button cancel" />
+                              </button>
+                            </td>
+                            <td>
+                              <button className='button-edit' onClick={() => updateHandleEdit(utilisateur.id, formData.name, formData.email)}>
+                                <img src="/assets/icones/valid.png" alt="button check"/>
+                              </button>
+                            </td>                            
                           </tr>
                         )}
                       </>
