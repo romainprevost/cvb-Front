@@ -4,19 +4,16 @@ import axios from '@/libs/axios';
 
 
 
-export default function ButtonAddActu() {
+export default function ButtonAddActu( {addActualite} ) {
 
     const [createActu, setCreateActu] = useState(false);
-
     const [previewImage, setPreviewImage] = useState(null);
-
     const [formData, setFormData] = useState({
         author: '',
         title: '',
         content: '',
-        file: ''
+        image: ''
     });
-
     const [errorForm, setErrorForm] = useState(false);
     const [validForm, setValidForm] = useState(false);
 
@@ -25,9 +22,10 @@ export default function ButtonAddActu() {
         setCreateActu(prevState => !prevState);
         }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        if(formData.author === '' || formData.title === '' || formData.content === '') {
+        //vérifier qu'au moin l'auteur et le titre sont indiqués
+        if(formData.author === '' || formData.title === '') {
             setErrorForm(true);
         }else {
             try {
@@ -35,15 +33,14 @@ export default function ButtonAddActu() {
                 formDataToSend.append('author', formData.author); // Ajoutez les données de formData à l'objet FormData
                 formDataToSend.append('title', formData.title);
                 formDataToSend.append('content', formData.content);
-                formDataToSend.append('image', formData.image); 
-        
+                formDataToSend.append('image', formData.image);         
     
-                const fetchDeleteActualite = async() => {
-                    const data = await axios.post(`/api/actualite/create`, formDataToSend)
-                    // Envoyez la requete au controller pour traitement en bdd
-                  }    
-                fetchDeleteActualite(); 
-                
+                const data = await axios.post(`/api/actualite/create`, formDataToSend)
+                // Envoyez la requete au controller pour traitement en bdd
+                const newActu = response.data.actualite;
+
+                addActualite(newActu);
+                                      
                 setErrorForm(false);
                 setValidForm(true); //confirm que le formulaire est bien valide
 
@@ -63,7 +60,7 @@ export default function ButtonAddActu() {
 
                     
             } catch (error) {
-                console.error("Erreur lors de l\'envoi des données :", error.message);
+                console.error("Erreur lors de l'envoi des données :", error.message);
             }
         }
     }

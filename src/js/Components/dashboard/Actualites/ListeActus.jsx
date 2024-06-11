@@ -1,29 +1,17 @@
-import {React, useState, useEffect} from 'react'
+import {React, useEffect, useState} from 'react'
 import axios from '@/libs/axios';
 
 
-
-export default function ListeActus() {
-
-    const [actualites, setActualites] = useState([]);
-
-    useEffect(() =>{
-        // Fonction asynchrone pour récupérer les articles
-        const fetchActualites = async() => {
-            try {
-                const response = await axios.get('/api/dashboard')
-                setActualites(response.data.actualites)
-                    
-            } catch (err) {
-                console.error(err);
-            }
-        }
-        fetchActualites();
-    }, [setActualites]);
-
+export default function ListeActus( {actualites, setActualites} ) {
     const [page, setPage] = useState(1); // État pour suivre la page actuelle
 
     const articlesPerPage = 8; // Nombre d'articles par page
+
+    
+        // Vérification des données reçues
+        useEffect(() => {
+            console.log('Initial Actualités:', actualites);
+        }, [actualites]);
 
     // Fonction pour filtrer les articles à afficher sur la page actuelle
     const getPaginatedArticles = () => {
@@ -57,8 +45,7 @@ export default function ListeActus() {
     };
 
     const handleEdit = (actualite) => {
-        console.log(actualite);
-        
+        console.log(actualite);  
     }
 
     const handleDelete = (actualite) => {
@@ -93,7 +80,9 @@ export default function ListeActus() {
               </tr>
             </thead>
             <tbody>
+                {console.log(getPaginatedArticles())}
                 {getPaginatedArticles().map((actualite) => (
+                    actualite && (
                     <tr key={actualite.id}>
                         <td className='w-8 text-center'>{actualite.id}</td>
                         <td>{truncateContent(actualite.content, 50)}</td>
@@ -113,6 +102,7 @@ export default function ListeActus() {
                             </button>
                         </td>
                     </tr>
+                    )
                 ))}
             </tbody>
           </table>
