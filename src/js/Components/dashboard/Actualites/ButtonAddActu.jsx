@@ -1,5 +1,7 @@
 import { React, useState } from 'react';
 import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from '@/libs/axios';
 
 export default function ButtonAddActu({ addActualite }) {
@@ -10,9 +12,22 @@ export default function ButtonAddActu({ addActualite }) {
         title: '',
         content: '',
         image: null
-    });
+        });
     const [errorForm, setErrorForm] = useState(false);
     const [validForm, setValidForm] = useState(false);
+    
+    const notify = (type) => {
+        switch (type) {
+            case 'success':
+                toast.success("Actualité créée");
+                break;
+            case 'error':
+                toast.error("Le formulaire contient des erreurs");
+                break;
+            default:
+                break;
+        }
+    };
 
     const handleCreateActu = () => {
         setCreateActu(prevState => !prevState);
@@ -22,6 +37,7 @@ export default function ButtonAddActu({ addActualite }) {
         e.preventDefault();
         if (formData.author === '' || formData.title === '') {
             setErrorForm(true);
+            notify('error'); // Affiche la notification d'erreur si le formulaire est invalide
         } else {
             try {
                 const formDataToSend = new FormData();
@@ -31,25 +47,28 @@ export default function ButtonAddActu({ addActualite }) {
                 formDataToSend.append('image', formData.image);
 
                 const response = await axios.post(`/api/actualite/create`, formDataToSend);
-                const newActu = response.data.actualite;
-                console.log(newActu);
+                if (response.status === 201){
+                    const newActu = response.data.actualite;    
 
-                addActualite(newActu);
-
-                setErrorForm(false);
-                setValidForm(true);
-
-                setTimeout(() => {
-                    setFormData({
-                        author: '',
-                        title: '',
-                        content: '',
-                        image: null
-                    });
-                    setValidForm(false);
-                    setPreviewImage(null);
-                    setCreateActu(false);
-                }, 3000);
+                    addActualite(newActu);
+    
+                    setErrorForm(false);
+                    setValidForm(true);
+    
+                    notify('success'); // Affiche la notification de succès si le formulaire est valide
+                    
+                    setTimeout(() => {
+                        setFormData({
+                            author: '',
+                            title: '',
+                            content: '',
+                            image: null
+                        });
+                        setValidForm(false);
+                        setPreviewImage(null);
+                        setCreateActu(false);
+                    }, 3000);
+                }
             } catch (error) {
                 console.error("Erreur lors de l'envoi des données :", error.message);
             }
@@ -76,7 +95,7 @@ export default function ButtonAddActu({ addActualite }) {
     return (
         <>
             <div className="create-actu">
-                <button className='button-create-actu' onClick={handleCreateActu}>
+                <button className='button-create-actu' onClick={handleCreateActu} >
                     Créer une nouvelle actualité
                 </button>
                 {createActu && (
@@ -132,10 +151,16 @@ export default function ButtonAddActu({ addActualite }) {
                                     <div className='message-valid-form'>
                                         <p>L'article a bien été créé!</p>
                                     </div>
+                                    
                                 )}
-                                <button type="submit">
+                                <button type="submit" onClick={notify}>
                                     Valider
                                 </button>
+                                <ToastContainer 
+                                    position="bottom-right"
+                                    autoClose={2900}                                   
+                                    theme="light"
+                                />
                             </form>
                         </div>
                         <div className="extrait">

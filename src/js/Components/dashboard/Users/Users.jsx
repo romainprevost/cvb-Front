@@ -78,18 +78,18 @@ const Users = () => {
     if ( utilisateurId !== null && action !== null) {
       if (action === 'delete') {
         const fetchDeleteStaff = async() => {
-          await axios.delete(`/api/user/${utilisateurId}`, formData)
+          const response = await axios.delete(`/api/user/${utilisateurId}`, formData)
         }
         fetchDeleteStaff();
       } else if (action === 'update' && formData.name !== '' && formData.email !== '') {
         const fetchUpdateStaff = async() => {
-            await axios.post(`/api/user/update/${utilisateurId}`, formData)
+            const response = await axios.post(`/api/user/update/${utilisateurId}`, formData)
           }    
           fetchUpdateStaff(); 
       }
       // Réinitialiser l'état de l'action après l'exécution de la requête POST
     }
-  }, [action]);
+  }, [action, staff]);
 
   const addUserToStaff = (newUser) => {
     setStaff((prevStaff) => [...prevStaff, newUser]);
