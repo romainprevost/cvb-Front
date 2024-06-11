@@ -2,7 +2,7 @@ import {React, useEffect, useState} from 'react'
 import axios from '@/libs/axios';
 
 
-export default function ButtonAddUser() {
+export default function ButtonAddUser( {addUserToStaff}) {
     const [createUser, setCreateUser] = useState(false)
 
     const [formData, setFormData] = useState({
@@ -20,7 +20,6 @@ export default function ButtonAddUser() {
         setFormData({
             ...formData,
             [name]: value
-
         });
     };
 
@@ -30,14 +29,17 @@ export default function ButtonAddUser() {
 
         try {
             const response = await axios.post('/api/user/create/', formData);
-            console.log('User created:', response.data);
-            alert(`L'utilisateur ${formData.name} a bien été créé`);
+            if (response.status ===201){
+                // console.log('User created:', response.data);
+                alert(`L'utilisateur ${formData.name} a bien été créé`);
+                console.log(response.data);
+                addUserToStaff(response.data.user);
+                
+            }
         } catch (error) {
             console.error('Error creating user:', error);
             alert('Une erreur est survenue lors de la création de l\'utilisateur.');
         }
-        
-
         setCreateUser(false)
     }
 

@@ -1,17 +1,12 @@
 import {React, useState, useEffect } from 'react';
 import ButtonAddUser from './ButtonAddUser';
 import axios from '@/libs/axios';
-import { useAuth } from '@/context/AuthContext'; // Importez useAuth
 
 const Users = () => {
   //recuperation JSON contenant infos du staff
   const [staff, setStaff] = useState([]);
-  const { auth } = useAuth(); // Utilise le contexte d'authentification
-
   const [utilisateurId, setUtilisateurId] = useState(''); // Déclarez utilisateurId comme un state
-
   const [action, setAction] = useState(''); // Action à effectuer : "edit" ou "delete"
-
   const [formData, setFormData] = useState({ //recuperation des data de utilisateur ciblé
     id :'',
     name: '',
@@ -45,13 +40,8 @@ const Users = () => {
 
   const updateHandleEdit = (id, name, email) => {
     setUtilisateurId(id); // recuperer id de l'utilisateur ciblé
-    setFormData({
-      id: id,
-      name: name, //modif nom utilisateur
-      email: email //modif email
-    });
     setAction('update'); //remettre action par defaut
-    
+    //mettre a jour les données du tableau
     const updatedStaff = staff.map((user) => {
       if (user.id !== id) {
         return user
@@ -68,15 +58,14 @@ const Users = () => {
   //DELETE
   const handleDelete = (id, name, email) => {
     setUtilisateurId(id); // recuperer id de l'utilisateur ciblé
-    setFormData({
-      id: id,
-      name: name,
-      email: email,
-    });
+
     const isConfirmed = window.confirm(`Voulez-vous vraiment supprimer l'utilisateur ${name}?`);
     if (isConfirmed) {
       setAction('delete'); // Définir l'action sur "delete"
     }
+    // fonction pour filtrer le user concerner et le supprimer selon l'id selectionné
+    const deleteStaff = staff.filter((user) => user.id !== id);
+    setStaff(deleteStaff);
   }
 
   //Cancel
@@ -86,22 +75,25 @@ const Users = () => {
   
   useEffect(() => {
     // Envoyez la requête POST une fois que formData est mis à jour
-    if (formData.name !== '' && formData.email !== '' && utilisateurId !== null && action !== null) {
+    if ( utilisateurId !== null && action !== null) {
       if (action === 'delete') {
         const fetchDeleteStaff = async() => {
-          const data = await axios.post(`/api/user/delete/${utilisateurId}`, formData)
+          await axios.delete(`/api/user/${utilisateurId}`, formData)
         }
         fetchDeleteStaff();
-      } else if (action === 'update') {
+      } else if (action === 'update' && formData.name !== '' && formData.email !== '') {
         const fetchUpdateStaff = async() => {
-            const data = await axios.post(`/api/user/update/${utilisateurId}`, formData)
+            await axios.post(`/api/user/update/${utilisateurId}`, formData)
           }    
           fetchUpdateStaff(); 
       }
       // Réinitialiser l'état de l'action après l'exécution de la requête POST
-      // setAction('');
     }
-  }, [formData]);
+  }, [action]);
+
+  const addUserToStaff = (newUser) => {
+    setStaff((prevStaff) => [...prevStaff, newUser]);
+  };
   
     return (
       <>
@@ -109,7 +101,9 @@ const Users = () => {
         <div className="users" >
           <div className='ml-8 mb-8'>
             <div>
-              <ButtonAddUser />
+              <ButtonAddUser
+                addUserToStaff = {addUserToStaff}
+              />
             </div>
           </div>
 
