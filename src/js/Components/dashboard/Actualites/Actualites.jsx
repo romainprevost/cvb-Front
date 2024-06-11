@@ -17,10 +17,14 @@ export default function Actualites() {
         }
     };
     fetchActualites();
-}, []);
+}, []);4
 
-const addActualite = (newActu) => {
-    setActualites((prevActualites) => [newActu, ...prevActualites]);
+const addActualite = async (newActu) => {
+    try {
+      setActualites(prevActualites => [newActu, ...prevActualites]);
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de l'actualité :", error.message);
+    }
 };
 
   return (

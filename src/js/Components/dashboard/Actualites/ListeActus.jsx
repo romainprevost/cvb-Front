@@ -7,12 +7,6 @@ export default function ListeActus( {actualites, setActualites} ) {
 
     const articlesPerPage = 8; // Nombre d'articles par page
 
-    
-        // Vérification des données reçues
-        useEffect(() => {
-            console.log('Initial Actualités:', actualites);
-        }, [actualites]);
-
     // Fonction pour filtrer les articles à afficher sur la page actuelle
     const getPaginatedArticles = () => {
         const startIndex = (page - 1) * articlesPerPage;
@@ -45,16 +39,15 @@ export default function ListeActus( {actualites, setActualites} ) {
     };
 
     const handleEdit = (actualite) => {
-        console.log(actualite);  
+        // console.log(actualite);  
     }
 
     const handleDelete = (actualite) => {
-        console.log(actualite);
         const isConfirmed = window.confirm(`Voulez-vous vraiment supprimer cet article ?`);
         if (isConfirmed) {
             const fetchDeleteActualite = async() => {
                 try{
-                    const data = await axios.post(`/api/actualite/delete/${actualite.id}`, actualite)
+                    await axios.delete(`/api/actualite/${actualite.id}`, actualite)
                     setActualites(prevActualites => prevActualites.filter(item => item.id !== actualite.id)); // filtre de l'item qui vient d'etre supprimé afin de reactualiser la liste en dropant la ligne supprimée...
                 } catch (err) {
                     console.error(err);
@@ -80,7 +73,6 @@ export default function ListeActus( {actualites, setActualites} ) {
               </tr>
             </thead>
             <tbody>
-                {console.log(getPaginatedArticles())}
                 {getPaginatedArticles().map((actualite) => (
                     actualite && (
                     <tr key={actualite.id}>
