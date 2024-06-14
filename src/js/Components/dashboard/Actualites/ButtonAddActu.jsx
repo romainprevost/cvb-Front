@@ -48,13 +48,13 @@ export default function ButtonAddActu({ addActualite }) {
 
                 const response = await axios.post(`/api/actualite/create`, formDataToSend);
                 if (response.status === 201){
-                    const newActu = response.data.actualite;    
+                    const newActu = response.data.actualite;
 
                     addActualite(newActu);
-    
+
                     setErrorForm(false);
                     setValidForm(true);
-    
+
                     notify('success'); // Affiche la notification de succès si le formulaire est valide
                     
                     setTimeout(() => {
