@@ -1,0 +1,34 @@
+name: DevOps-GitHibActions
+on: 
+  push:
+    branches: 
+      - main
+jobs:
+  # Build And deploy Job
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+      - name: SSH Deployment
+        uses: saranraj3195/sparkout-deployment@v2
+        env:
+          DEPLOY_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: '-avz --delete'
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          FOLDER: 'dist/*'
+          SERVER_IP: ${{ secrets.SERVER_HOST }}
+          USERNAME: ${{ secrets.USERN }}
+          SERVER_DESTINATION: ${{ secrets.DEPLOYMENT_DIRECTORY }}
